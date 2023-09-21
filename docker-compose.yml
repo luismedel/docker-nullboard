@@ -1,0 +1,12 @@
+services:
+  nullboard:
+    build: ./nullboard
+    ports:
+      - 80:80
+
+  nbagent:
+    build: ./nbagent
+    ports:
+      - 10002:10001
+    volumes:
+      - ./data:/data
