@@ -6,14 +6,11 @@ name: Docker
 # documentation.
 
 on:
-  schedule:
-    - cron: '0/15/30/45 * * * *'
+  workflow_dispatch:
   push:
     branches: [ "master" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
-  pull_request:
-    branches: [ "master" ]
 
 env:
   # Use docker.io for Docker Hub if empty
