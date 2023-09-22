@@ -9,14 +9,11 @@ ENV XDG_DATA_HOME=/data
 
 COPY ./lighttpd.conf ./lighttpd.conf
 
-RUN apk update && apk add git lighttpd
-RUN git clone --depth 1 https://github.com/apankrat/nullboard /www
-RUN mv /www/nullboard.html /www/index.html
-RUN apk del git
-
-RUN apk add python3 py3-pip
-RUN python3 -m pip install nbagent
-RUN apk del py3-pip
+RUN apk update && apk add git lighttpd python3 py3-pip && \
+    git clone --depth 1 https://github.com/apankrat/nullboard /www && \
+    mv /www/nullboard.html /www/index.html && \
+    python3 -m pip install nbagent && \
+    apk del git py3-pip
 
 ENTRYPOINT [ "/bin/sh", "-c" ]
 CMD [ "lighttpd -f ./lighttpd.conf & nbagent --data /data && fg" ]
