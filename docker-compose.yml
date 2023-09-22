@@ -1,6 +1,6 @@
 services:
   nullboard:
-    build: .
+    image: luismedel/nullboard
     ports:
       - 80:80
       - 10001:10001
