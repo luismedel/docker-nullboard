@@ -7,13 +7,15 @@ WORKDIR /
 VOLUME [ "/data" ]
 ENV XDG_DATA_HOME=/data
 
-COPY ./lighttpd.conf ./lighttpd.conf
-
-RUN apk update && apk add git lighttpd python3 py3-pip && \
-    git clone --depth 1 https://github.com/apankrat/nullboard /www && \
+RUN apk update && apk add git lighttpd python3 py3-pip util-linux jq && \
+    git clone --depth 1 https://github.com/luismedel/nullboard /www && \
     mv /www/nullboard.html /www/index.html && \
     python3 -m pip install nbagent && \
     apk del git py3-pip
 
+COPY ./lighttpd.conf ./lighttpd.conf
+COPY ./init.sh ./init.sh
+RUN chmod +x ./init.sh
+
 ENTRYPOINT [ "/bin/sh", "-c" ]
-CMD [ "lighttpd -f ./lighttpd.conf & nbagent --data /data && fg" ]
+CMD [ "./init.sh" ]
